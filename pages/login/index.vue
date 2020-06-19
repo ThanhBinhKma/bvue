@@ -60,6 +60,10 @@
 </template>
 
 <script>
+import {
+    mapActions
+} from 'vuex'
+
 import Cookies from 'js-cookie'
 export default {
   data() {
@@ -77,24 +81,16 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+            login: 'auth/loginPing'
+        }),
+
     // eslint-disable-next-line require-await
     async onLogin() {
-      try {
-        const response = await this.$axios.post(
-          'https://api-pings.amela.vn/login',
-          this.formLogin
-        )
-        if (response.data.status === 'ERROR') {
-          alert('User or passsword invalid')
-        } else {
-          Cookies.set('token', response.data.data.token)
-          Cookies.set('user', response.data.data)
-          this.$router.push('/')
-        }
-      } catch (e) {
-        this.error = e.response.data.message
-      }
+        this.login(this.formLogin)
     },
   },
+  created() {
+  }
 }
 </script>

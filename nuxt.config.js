@@ -1,9 +1,15 @@
+import config from './config';
+import axios from './plugins/axios'
+
 export default {
   /*
    ** Nuxt rendering mode
    ** See https://nuxtjs.org/api/configuration-mode
    */
-  mode: 'universal',
+  mode: 'spa',
+  env: {
+    CONFIG_ENV: process.env.CONFIG_ENV
+  },
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head
@@ -35,10 +41,10 @@ export default {
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module',
-    '@nuxtjs/dotenv',
+    // '@nuxtjs/eslint-module',
+    // '@nuxtjs/dotenv',
     // Doc: https://github.com/nuxt-community/stylelint-module
-    '@nuxtjs/stylelint-module',
+    // '@nuxtjs/stylelint-module',
   ],
   /*
    ** Nuxt.js modules
@@ -56,21 +62,25 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'https://api-pings.amela.vn',
+    baseURL: config.api.url,
   },
   auth: {
     redirect: {
-      callback: '/',
+        callback: '/dashboard',
+        login: '/login',
+        logout: '/login',
+        home: '/dashboard'
     },
     strategies: {
-      local: {
-        endpoints: {
-          login: { url: '/login', method: 'post', propertyName: 'token' },
-          logout: false,
+        local: {
+            endpoints: false
         },
-      },
     },
-  },
+    vuex: {
+        namespace: 'authentication'
+    }
+},
+
   router: {
     middleware: ['checkLogin'],
   },
@@ -83,5 +93,12 @@ export default {
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
    */
-  build: {},
+  build: {
+    extend(config, ctx) {
+      config.node = {
+          fs: 'empty'
+      }
+  },
+
+  },
 }

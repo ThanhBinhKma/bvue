@@ -25,6 +25,8 @@
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.11.0",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
+    "dotenv": "^8.2.0",
+    "fs": "0.0.1-security",
     "js-cookie": "^2.2.1",
     "nuxt": "^2.13.0",
     "nuxt-session": "^1.0.3",
