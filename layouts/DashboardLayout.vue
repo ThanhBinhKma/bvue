@@ -1,10 +1,11 @@
 <template>
   <div class="wrapper">
-    <side-bar />
+    <side-bar>
+    </side-bar>
     <div class="main-panel">
-      <top-navbar></top-navbar>
+     <top-navbar />
 
-      <dashboard-content @click.native="toggleSidebar">
+      <dashboard-content>
 
       </dashboard-content>
 
@@ -12,6 +13,8 @@
     </div>
   </div>
 </template>
+<style lang="scss">
+</style>
 <script>
 import TopNavbar from "./TopNavbar.vue";
 import SideBar from "../components/SidebarPlugin/SideBar.vue"
@@ -23,20 +26,6 @@ export default {
     SideBar,
     ContentFooter,
     DashboardContent,
-  },
-  methods: {
-    toggleSidebar() {
-      if (this.$sidebar.showSidebar) {
-        this.$sidebar.displaySidebar(false);
-      }
-    }
   }
 };
 </script>
-<style>
-footer.footer{
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-}
-</style>

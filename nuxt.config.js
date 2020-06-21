@@ -30,7 +30,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['~/assets/css/style.css', '~/assets/css/slim.css'],
+  css: ["bootstrap/dist/css/bootstrap.css","@/assets/sass/paper-dashboard.scss","@/assets/css/themify-icons.css"],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -56,6 +56,7 @@ export default {
     // Doc: https://github.com/nuxt/content
     '@nuxt/content',
     '@nuxtjs/auth',
+    'bootstrap-vue/nuxt',
   ],
   /*
    ** Axios module configuration

@@ -1,6 +1,6 @@
 import { Promise } from "q";
 import config from '../config'
-
+ 
 
 export default function({ $axios }) {
     $axios.onRequest(setting => {
