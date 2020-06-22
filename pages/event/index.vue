@@ -27,12 +27,13 @@
           <tbody>
             <tr v-for="item in items" :key="item.id">
               <td>{{item.id}}</td>
-              <td>{{item.name}}</td>
-              <td>{{item.start_time}}</td>
-              <td>{{item.end_time}}</td>
-              <td>{{item.deadline}}</td>
-              <td>{{item.total_unconfirm}}</td>
-              <td>{{item.total_user}}</td>
+              <td>{{item.title}}</td>
+              <td>{{item.assistant}}</td>
+              <td>{{item.author}}</td>
+              <td>
+               {{item.avatar}}
+                </td>
+              <td>{{item.category}}</td>
               <td>
                 <a href class="btn btn-primary">
 <i class="far fa-trash-alt"></i>
@@ -69,28 +70,33 @@ export default {
     return {
         fields:[
             {k:"id"},
-            {k:"name"},
-            {k:"start_time"},
-            {k:"end_time"},
-            {k:"deadline"},
-            {k:"total_unconfirm"},
-            {k:"total_user"},
+            {k:"title"},
+            {k:"assistant"},
+            {k:"author"},
+            {k:"avatar"},
+            {k:"category"},
             {k:"Action"},
         ],
         items:[
-             {"id": 9,"name": "Oceane Boyle","start_time": "2020-06-01 20:04:00","end_time": "2020-06-05 20:04:00","deadline": "2020-06-02 23:56:00","total_unconfirm": 4,"total_user": 5},
-            {"id": 10,"name": "Christy Rempel","start_time": "2020-05-28 10:04:00","end_time": "2020-05-31 10:04:00","deadline": "2020-05-30 08:09:00","total_unconfirm": 1,"total_user": 2},
-            {"id": 11,"name": "Miss Rosemarie Nicolas I","start_time": "2020-06-07 09:20:00","end_time": "2020-06-14 09:20:00","deadline": "2020-06-12 13:26:00","total_unconfirm": 2,"total_user": 4}
+            
         ],
         totalRows:3,
         currentPage:1,
         perPage:3
    };
   },
+  mounted() {
+    this.myProvider()
+  },
   methods:{
-      myProvider(ctx){
-          const promise = axios.get("/api/admin/users" + ctx.currentPage);
-          console.log(promise + ">>>>");
+      async myProvider(){
+        const {data} = await this.$axios.get('cms/get-page-event')
+        this.items = data.data.content
+        this.totalRows = data.data.pageable.totalRow
+        console.log(data);
+        
+        // this.perPage = data.data.pageable.pageSize
+        this.currentPage = data.data.pageable.pageIndex
       }
   }
 };

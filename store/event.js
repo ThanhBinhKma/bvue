@@ -4,8 +4,6 @@ export const actions = {
         // if (!promise.success) throw promise;
         console.log(promise + '.>>>>');
         let user = promise.data;
-       
-
         return promise;
     }
 }

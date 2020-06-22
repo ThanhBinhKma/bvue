@@ -1,14 +1,10 @@
 import { Promise } from "q";
 import config from '../config'
  
-
 export default function({ $axios }) {
     $axios.onRequest(setting => {
-        if (localStorage.getItem('TOKEN')) {
-            setting.headers.common['Authorization'] = localStorage.getItem('TOKEN');
-        }
         if (JSON.parse(localStorage.getItem('auth.user'))) {
-            setting.headers.common['token'] = JSON.parse(localStorage.getItem('auth.user')).token;
+            setting.headers.common['Authorization'] = JSON.parse(localStorage.getItem('auth.user')).token;
         }
         setting.headers.common['Access-Control-Allow-Origin'] = '*';
     });
