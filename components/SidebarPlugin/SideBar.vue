@@ -23,7 +23,7 @@
         <!--By default vue-router adds an active class to each route link. This way the links are colored when clicked-->
         <slot name="links">
           <li>
-            <nuxt-link class="nav-link sidebar-link" to="/dashboard">
+            <nuxt-link class="nav-link sidebar-link" to="/user">
               <slot>
                 <p>User</p>
               </slot>

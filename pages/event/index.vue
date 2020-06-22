@@ -1,66 +1,43 @@
 <template>
-  <div>
-    <div class="row">
-    <form class="w-100">
-      <div class="form-group col-3 float-left">
-        <input
-          type="email"
-          class="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp"
-        />
-      </div>
-      <b-button class="ml-1">
-        <i class="fas fa-search"></i>
-      </b-button>
-    </form>
-  </div>
-    <b-row>
-      <b-col sm="12" lg="12">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col" v-for="field in fields" :key="field.key">{{ field.k }}</th>
-            </tr>
-          </thead>
+<div>
+    <b-form-group>
+        <b-form-input v-model="name"></b-form-input>
+        <b-button-group>Search</b-button-group>
+    </b-form-group>
+    <b-table
+    id="my-table"
+    :items="myProvider"
+    :per-page="perPage"
+    :current-page="currentPage"
+    :fields="fields"
+    >
+    <template v-slot:cell(avatar)="data">
+        <img :src="data.item.avatar" alt="" class="avatar-event">
+    </template>
+        <template v-slot:cell(action)="data">
+            <button v-on:click="deleteEvent(data.item.id)" class="btn btn-primary" v-if="data.item.flaq === true">
+                <i class="far fa-trash-alt"></i>   
+            </button>
+            <button v-on:click="deleteEvent(data.item.id)" class="btn btn-info" v-else>
+                <i class="fas fa-trash-restore"></i>
+            </button>
+            <button class="btn btn-danger" @click.prevent="$router.push('/event/' + data.item.id )">
+                <i class="far fa-edit"></i>
+            </button>
+        </template>
+    </b-table>
 
-          <tbody>
-            <tr v-for="item in items" :key="item.id">
-              <td>{{item.id}}</td>
-              <td>{{item.title}}</td>
-              <td>{{item.assistant}}</td>
-              <td>{{item.author}}</td>
-              <td>
-               {{item.avatar}}
-                </td>
-              <td>{{item.category}}</td>
-              <td>
-                <a href class="btn btn-primary">
-<i class="far fa-trash-alt"></i>
-                  
-                </a>
-                <button class="btn btn-danger" @click.prevent="$router.push('/event/' + item.id)">
-                  <i class="far fa-edit"></i>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </b-col>
-    </b-row>
-
-    <b-row>
-      <b-col md="12">
-        <b-pagination
-          class="paginate-event"
-          v-model="currentPage"
-          :total-rows="totalRows"
-          :per-page="perPage"
-        ></b-pagination>
-      </b-col>
-    </b-row>
+  <div class="overflow-auto">
+    <b-pagination
+        v-model="currentPage"
+        :total-rows="totalRows"
+        :per-page="perPage"
+        aria-controls="my-table"
+    >
+    
+    </b-pagination>
   </div>
-  <!-- Main table element -->
+</div>
 </template>
 <script>
 import axios from '../../plugins/axios';
@@ -69,13 +46,13 @@ export default {
   data() {
     return {
         fields:[
-            {k:"id"},
-            {k:"title"},
-            {k:"assistant"},
-            {k:"author"},
-            {k:"avatar"},
-            {k:"category"},
-            {k:"Action"},
+            {key:"id"},
+            {key:"title"},
+            {key:"author"},
+            {key:"avatar"},
+            {key:"category"},
+            {key:"endDate"},
+            {key:"action"},
         ],
         items:[
             
@@ -85,18 +62,24 @@ export default {
         perPage:3
    };
   },
-  mounted() {
-    this.myProvider()
-  },
   methods:{
-      async myProvider(){
-        const {data} = await this.$axios.get('cms/get-page-event')
+      async myProvider(ctx){
+        const {data} = await this.$axios.get('cms/get-page-event?pageIndex=' +  ctx.currentPage )
         this.items = data.data.content
+        let items  = data.data.content
         this.totalRows = data.data.pageable.totalRow
-        console.log(data);
-        
-        // this.perPage = data.data.pageable.pageSize
-        this.currentPage = data.data.pageable.pageIndex
+        this.perPage = data.data.pageable.pageSize
+        return items;
+        // t
+        // this.currentPage = data.data.pageable.pageIndex
+      },
+      async deleteEvent(e){
+          const {dataDelete} = await this.axios.post('cms/delete-event/' ,{
+              params : {
+                  eventId  : e
+              }
+          } )
+          console.log(dataDelete)
       }
   }
 };
@@ -108,5 +91,10 @@ export default {
 .page-item.active .page-link{
   background-color: #66615B;
   border-color:#66615B;
+}
+.avatar-event{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
 }
 </style>
