@@ -2,9 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="#"></a>
-      <button class="navbar-toggler navbar-burger"
-              type="button"
-              aria-label="Toggle navigation">
+      <button class="navbar-toggler navbar-burger" type="button" aria-label="Toggle navigation">
         <span class="navbar-toggler-bar"></span>
         <span class="navbar-toggler-bar"></span>
         <span class="navbar-toggler-bar"></span>
@@ -12,13 +10,14 @@
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <p>Log Out</p>
+            <a v-on:click="logOut" class="hover-button-a nav-link">
+              <i class="fas fa-sign-out-alt"></i>
             </a>
           </li>
         </ul>
       </div>
-    </div></nav>
+    </div>
+  </nav>
 </template>
 <script>
 export default {
@@ -34,23 +33,20 @@ export default {
     };
   },
   methods: {
-    capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
-    },
-    toggleNotificationDropDown() {
-      this.activeNotifications = !this.activeNotifications;
-    },
-    closeDropDown() {
-      this.activeNotifications = false;
-    },
-    toggleSidebar() {
-      this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
-    },
-    hideSidebar() {
-      this.$sidebar.displaySidebar(false);
+    logOut: function(){
+        localStorage.removeItem('auth._token.local');
+        localStorage.removeItem('auth._token.user');
+        localStorage.removeItem('auth.user');
+        this.$router.push('/login');
     }
   }
 };
 </script>
 <style>
+.hover-button-a:hover {
+  cursor: pointer;
+}
+svg.fa-sign-out-alt{
+  font-size: 25px;
+}
 </style>

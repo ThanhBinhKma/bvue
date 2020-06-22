@@ -16,11 +16,6 @@
                       type="text"
                       class="form-control"
                     />
-                    <div class="input-group-append">
-                      <span class="input-group-text">
-                        <i class="el-icon-check"></i>
-                      </span>
-                    </div>
                   </div>
                 </div>
                 <div class="form-group">
@@ -31,11 +26,6 @@
                       type="password"
                       class="form-control"
                     />
-                    <div class="input-group-append">
-                      <span class="input-group-text">
-                        <i class="el-icon-check"></i>
-                      </span>
-                    </div>
                   </div>
                 </div>
                 <div class="form-group"></div>
@@ -49,9 +39,6 @@
                 </div>
               </div>
             </div>
-            <p class="footer-text text-center">
-              >Copyright © {{ year }} Bootstrapdash. All rights reserved.
-            </p>
           </div>
         </div>
       </div>
@@ -64,8 +51,9 @@ import {
     mapActions
 } from 'vuex'
 
-import Cookies from 'js-cookie'
 export default {
+  layout:'default',
+  name:'login',
   data() {
     return {
       formLogin: {

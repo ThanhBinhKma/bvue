@@ -4,7 +4,7 @@
     <div class="main-panel">
       <top-navbar></top-navbar>
 
-      <dashboard-content @click.native="toggleSidebar">
+      <dashboard-content>
 
       </dashboard-content>
 
@@ -16,6 +16,8 @@
 import TopNavbar from "./TopNavbar.vue";
 import SideBar from "../components/SidebarPlugin/SideBar.vue"
 import ContentFooter from "./ContentFooter.vue";
+import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/js/all.js'
 import DashboardContent from "./Content.vue";
 export default {
   components: {
@@ -23,13 +25,6 @@ export default {
     SideBar,
     ContentFooter,
     DashboardContent,
-  },
-  methods: {
-    toggleSidebar() {
-      if (this.$sidebar.showSidebar) {
-        this.$sidebar.displaySidebar(false);
-      }
-    }
   }
 };
 </script>
