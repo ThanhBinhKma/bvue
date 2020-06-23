@@ -35,7 +35,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ['~plugins/axios'],
+  plugins: ['~plugins/axios','~plugins/moment'],
   /*
    ** Nuxt.js dev-modules
    */
