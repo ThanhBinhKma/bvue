@@ -6,9 +6,7 @@
     </b-form-group>
     <b-table
       id="my-table"
-      :items="myProvider"
-      :per-page="perPage"
-      :current-page="currentPage"
+      :items="items"
       :fields="fields"
     >
       <template v-slot:cell(avatar)="data">
@@ -18,11 +16,11 @@
         <button
           v-on:click="deleteEvent(data.item.id)"
           class="btn btn-danger"
-          v-if="data.item.deletedFlag === true"
+          v-if="data.item.deletedFlag === false"
         >
           <i class="far fa-trash-alt"></i>
         </button>
-        <button v-on:click="restoreEvent(data.item.id)" class="btn btn-info" v-if="data.item.deletedFlag === false">
+        <button v-on:click="restoreEvent(data.item.id)" class="btn btn-info" v-if="data.item.deletedFlag === true">
           <i class="fas fa-trash-restore"></i>
         </button>
         <button class="btn btn-primary" @click.prevent="$router.push('/event/' + data.item.id )">
@@ -68,41 +66,39 @@ export default {
         items:[
             
         ],
-        totalRows:3,
+        totalRows:0,
         currentPage:1,
         perPage:10,
         searchKeyword:""
    };
   },
+  watch: {
+    'currentPage' (val) {
+      this.myProvider()
+    }  
+  },
   methods:{
-      async myProvider(ctx){
-          console.log(this.searchKeyword)
+      async myProvider(){
+        console.log(this.currentPage)
         const {data} = await this.$axios.post('event/search',{
             searchKeyword : this.searchKeyword,
             pageSize : 10,
-            pageIndex: ctx.currentPage
+            pageIndex: this.currentPage
         });
-        // console.log(data.data.content)
         this.items = data.data.content
-        let items  = data.data.content
         this.totalRows = data.data.pageable.totalRow
-        this.perPage = 10
-        return items;
-        
-        // this.currentPage = data.data.pageable.pageIndex
       },
       async deleteEvent(e){
-          console.log(e)
           const dataDelete = await this.$axios.delete('cms/delete-event/' + e)
-
-          console.log(dataDelete);
+          this.myProvider()
           
       },
       async restoreEvent(e){
-const dataDelete = await this.$axios.delete('cms/revive-event/' + e)
+        const dataDelete = await this.$axios.post('cms/revive-event/' + e)
+        this.myProvider()
       },
         searchEvent(ctx){
-            this.myProvider(ctx)
+            this.myProvider()
       },
       formatDate(value) {
             if (!value) return
@@ -115,6 +111,9 @@ const dataDelete = await this.$axios.delete('cms/revive-event/' + e)
             }
         },
 
+  },
+  created() {
+    this.myProvider()
   }
 };
 </script>
