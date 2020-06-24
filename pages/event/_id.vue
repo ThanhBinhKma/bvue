@@ -1,6 +1,5 @@
 <template>
   <div>
-    <form>
       <div class="row">
         <div class="col-6 col-md-6">
           <div class="form-group">
@@ -11,35 +10,32 @@
         <div class="col-3 col-md-3">
           <div class="form-group">
             <label for="participant">Participant Max:</label>
-            <input type="number" id="participant" class="form-control" />
+            <input type="number" id="participant" class="form-control" v-model="participant" />
           </div>
         </div>
         <div class="col-3 col-md-3">
           <div class="form-group">
             <label for="price">Price:</label>
-            <input type="number" id="price" class="form-control" />
+            <input type="number" id="price" class="form-control" v-model="participantMax" />
           </div>
         </div>
 
         <div class="col-3 col-md-3">
           <div class="form-group">
-            <label for="category">Category</label>
-            <select id="category" class="form-control">
-              <option value="1">1</option>
-              <option value="1">2</option>
-              <option value="1">3</option>
-            </select>
+           <b-form-select v-model="categorySelect" :options="category" value-field="id"  text-field="name"></b-form-select>
           </div>
         </div>
 
         <div class="col-3 col-md-3">
           <div class="form-group">
-            <label for="author">Author</label>
-            <select id="author" class="form-control">
-              <option value="1">1</option>
-              <option value="1">2</option>
-              <option value="1">3</option>
-            </select>
+            <b-form-select
+              v-model="authorSelect"
+              :options="options"
+              value-field="id"
+              text-field="userName"
+            >
+
+            </b-form-select>
           </div>
         </div>
       </div>
@@ -62,8 +58,7 @@
 
       <div class="row">
         <div class="col-3 col-md-3">
-          <span>Avatar</span>
-          <input type="file"  v-on:change="onchangeFile" class="form-control">
+          <b-form-file v-model="fileUpload" plain="" name="fileName"></b-form-file>
         </div>
 
         <div class="col-3 col-md-3">
@@ -86,7 +81,6 @@
         </div>
       </div>
       
-    </form>
     <button class="btn btn-primary" v-on:click="updateEvent()">Update</button>
   </div>
 </template>
@@ -124,17 +118,41 @@ export default {
         startTime: '',
         endTime: '',
         title: '',
+        participant:'',
+        participantMax:'',
         fileUpload:null,
+        category:[
+          
+        ],
+
         options: [],
         value:[],
-        userId:[]
+        fileName:"",
+        userId:[],
+        dataEvent:null,
+        categorySelect:null,
+        authorSelect:null
         }
     },
     methods:{
         async detailEvent(){
             const {data} =  await this.$axios.get('cms/get-event/' + this.$route.params.id);
+            this.title = data.data.title
+            this.participant = data.data.participant
+            this.participantMax= data.data.participantMax
+            this.endTime = data.data.endDate
+            this.startTime = data.data.startDate
+            this.fileName = data.data.avatar
             console.log(data)
+
+            const dataCategory = await this.$axios.get('event/list-category');
+              console.log(dataCategory)
+            dataCategory.data.data.forEach(categoryData => {
+              this.category.push(categoryData)
+            });
+            
             const dataUser = await this.$axios.post('user/list-user');
+            console.log(dataUser)
             dataUser.data.data.content.forEach(element => {
               this.options.push(element)
             });
@@ -143,9 +161,7 @@ export default {
         onContext(ctx) {
             this.context = ctx
         },
-        onchangeFile:function (e) {
-          this.fileUpload = e.target.files[0]
-        },
+        
         updateEvent:function(){
           // console.log(this.title + '>>>>>' + this.endTime + '>>>>' + this.startTime)
           console.log('====================================');
