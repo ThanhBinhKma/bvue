@@ -1,7 +1,8 @@
 import config from './config';
 import axios from './plugins/axios'
-
+const path  = require('path');
 export default {
+  
   /*
    ** Nuxt rendering mode
    ** See https://nuxtjs.org/api/configuration-mode
@@ -30,12 +31,14 @@ export default {
   /*
    ** Global CSS
    */
-  css: ["bootstrap/dist/css/bootstrap.css","@/assets/sass/paper-dashboard.scss","@/assets/css/themify-icons.css"],
+  css: ["bootstrap/dist/css/bootstrap.css","@/assets/sass/paper-dashboard.scss","@/assets/css/themify-icons.css",
+  path.resolve(__dirname,'node_modules/vue-multiselect/dist/vue-multiselect.min.css')
+],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ['~plugins/axios','~plugins/moment', '~plugins/element-ui'],
+  plugins: ['~plugins/axios','~plugins/moment', '~plugins/element-ui','~plugins/multi-select'],
   /*
    ** Nuxt.js dev-modules
    */
