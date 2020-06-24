@@ -1,7 +1,7 @@
 <template>
   <div class="form-content">
     <b-form-group>
-      <b-form-input v-model="searchKeyword"></b-form-input>
+      <b-form-input v-model="name"></b-form-input>
       <b-button v-on:click="searchEvent">Search</b-button>
     </b-form-group>
     <b-table
@@ -11,21 +11,25 @@
       :current-page="currentPage"
       :fields="fields"
     >
+    <template v-slot:cell(STT)="data"> 
+        <p>{{(data.index)}}</p>
+    </template>
+
       <template v-slot:cell(avatar)="data">
         <img :src="data.item.avatar" alt class="avatar-event" />
       </template>
       <template v-slot:cell(action)="data">
         <button
           v-on:click="deleteEvent(data.item.id)"
-          class="btn btn-danger"
-          v-if="data.item.deletedFlag === true"
+          class="btn btn-primary"
+          v-if="data.item.flaq === true"
         >
           <i class="far fa-trash-alt"></i>
         </button>
-        <button v-on:click="restoreEvent(data.item.id)" class="btn btn-info" v-if="data.item.deletedFlag === false">
+        <button v-on:click="deleteEvent(data.item.id)" class="btn btn-info" v-else>
           <i class="fas fa-trash-restore"></i>
         </button>
-        <button class="btn btn-primary" @click.prevent="$router.push('/event/' + data.item.id )">
+        <button class="btn btn-danger" @click.prevent="$router.push('/event/' + data.item.id )">
           <i class="far fa-edit"></i>
         </button>
       </template>
@@ -56,13 +60,14 @@ export default {
   data() {
     return {
         fields:[
+            {key:"STT"},
             {key:"id"},
-            {key:"title"},
-            {key:"authorName"},
+            {key:"userName"},
+            {key:"phone"},
+            {key:"email"},
             {key:"avatar"},
-            {key:"category"},
-            {key:"startDate"},
-            {key:"endDate"},
+            {key:"gender"},
+            {key:"role"},
             {key:"action"},
         ],
         items:[
@@ -71,38 +76,32 @@ export default {
         totalRows:3,
         currentPage:1,
         perPage:10,
-        searchKeyword:""
+        name:""
    };
   },
   methods:{
       async myProvider(ctx){
-          console.log(this.searchKeyword)
-        const {data} = await this.$axios.post('event/search',{
-            searchKeyword : this.searchKeyword,
-            pageSize : 10,
-            pageIndex: ctx.currentPage
-        });
-        // console.log(data.data.content)
+        
+          if(this.name){
+              console.log(123)
+          }else{
+        const {data} = await this.$axios.get('cms/get-page-user?pageIndex=' +  ctx.currentPage  + '&pageSize=10')
+        console.log(data)
         this.items = data.data.content
         let items  = data.data.content
         this.totalRows = data.data.pageable.totalRow
         this.perPage = 10
         return items;
-        
+          }
         // this.currentPage = data.data.pageable.pageIndex
       },
       async deleteEvent(e){
-          console.log(e)
           const dataDelete = await this.$axios.delete('cms/delete-event/' + e)
 
           console.log(dataDelete);
           
       },
-      async restoreEvent(e){
-const dataDelete = await this.$axios.delete('cms/revive-event/' + e)
-      },
-        searchEvent(ctx){
-            this.myProvider(ctx)
+      async searchEvent(){
       },
       formatDate(value) {
             if (!value) return

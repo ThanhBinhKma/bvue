@@ -37,6 +37,13 @@
               </slot>
             </nuxt-link>
           </li>
+          <li>
+            <nuxt-link class="nav-link sidebar-link" to="/transaction">
+              <slot>
+                <p>Transaction</p>
+              </slot>
+            </nuxt-link>
+          </li>
         </slot>
       </ul>
     </div>
