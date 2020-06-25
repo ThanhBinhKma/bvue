@@ -18,7 +18,7 @@
         <img :src="data.item.avatar" alt class="avatar-event" />
       </template>
       <template v-slot:cell(action)="data">
-        <button class="btn btn-danger" @click.prevent="$router.push('/transaction/' + data.item.id )">
+        <button class="btn btn-danger" @click.prevent="$router.push('/bill/' + data.item.id )">
           <i class="far fa-edit"></i>
         </button>
       </template>
@@ -49,15 +49,14 @@ export default {
   data() {
     return {
         fields:[
-            {key:"STT"},
             {key:"id"},
-            {key:"userId"},
-            {key:"amount"},
-            {key:"currency"},
-            {key:"eventId"},
-            {key:"holderName"},
-            {key:"cardNumber"},
-            {key:"createdAt"},
+            {key:"toUser"},
+            {key:"fromUser"},
+            {key:"amountSent"},
+            {key:"amountTake"},
+            {key:"totalAmount"},
+            {key:"totalRemain"},
+            {key:"status"},
             {key:"action"}
         ],
         items:[
@@ -71,7 +70,7 @@ export default {
   },
   methods:{
       async myProvider(){
-        const {data} = await this.$axios.get('/cms/get-page-transaction?' + this.currentPage + "&pageSize=" + this.perPage)
+        const {data} = await this.$axios.get('/cms/get-page-billing?' + this.currentPage + "&pageSize=" + this.perPage)
         this.items = data.content
         this.totalRows =data.pageable.totalRow
           console.log(data)

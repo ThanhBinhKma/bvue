@@ -10,7 +10,7 @@ export default function({ $axios }) {
     });
     $axios.onResponse(response => {
         if (response.data.status === "SUCCESS") {
-            return Promise.resolve(response)
+            return Promise.resolve(response.data)
         }
         return Promise.reject(response.data)
     })

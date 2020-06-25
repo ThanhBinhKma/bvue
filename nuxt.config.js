@@ -32,7 +32,10 @@ export default {
    ** Global CSS
    */
   css: ["bootstrap/dist/css/bootstrap.css","@/assets/sass/paper-dashboard.scss","@/assets/css/themify-icons.css",
-  path.resolve(__dirname,'node_modules/vue-multiselect/dist/vue-multiselect.min.css')
+  path.resolve(__dirname,'node_modules/vue-multiselect/dist/vue-multiselect.min.css'),
+  './node_modules/element-ui/packages/theme-chalk/src/base.scss',
+  './node_modules/element-ui/packages/theme-chalk/src/button.scss',
+  './node_modules/element-ui/packages/theme-chalk/src/container.scss'
 ],
   /*
    ** Plugins to load before mounting the App

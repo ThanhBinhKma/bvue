@@ -44,6 +44,20 @@
               </slot>
             </nuxt-link>
           </li>
+          <li>
+            <nuxt-link class="nav-link sidebar-link" to="/bill">
+              <slot>
+                <p>Bill</p>
+              </slot>
+            </nuxt-link>
+          </li>
+          <li>
+            <nuxt-link class="nav-link sidebar-link" to="/income">
+              <slot>
+                <p>Income</p>
+              </slot>
+            </nuxt-link>
+          </li>
         </slot>
       </ul>
     </div>

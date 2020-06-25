@@ -49,15 +49,10 @@ export default {
   data() {
     return {
         fields:[
-            {key:"STT"},
-            {key:"id"},
+            {key:"income"},
             {key:"userId"},
-            {key:"amount"},
-            {key:"currency"},
-            {key:"eventId"},
-            {key:"holderName"},
-            {key:"cardNumber"},
-            {key:"createdAt"},
+            {key:"userName"},
+            {key:"email"},
             {key:"action"}
         ],
         items:[
@@ -71,7 +66,7 @@ export default {
   },
   methods:{
       async myProvider(){
-        const {data} = await this.$axios.get('/cms/get-page-transaction?' + this.currentPage + "&pageSize=" + this.perPage)
+        const {data} = await this.$axios.get('/cms/get-page-income?' + this.currentPage + "&pageSize=" + this.perPage)
         this.items = data.content
         this.totalRows =data.pageable.totalRow
           console.log(data)

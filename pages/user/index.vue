@@ -2,19 +2,15 @@
   <div class="form-content">
     <b-form-group>
       <b-form-input v-model="name"></b-form-input>
-      <b-button v-on:click="searchEvent">Search</b-button>
+      <b-button v-on:click="searchUser()">Search</b-button>
     </b-form-group>
     <b-table
       id="my-table"
-      :items="myProvider"
+      :items="items"
       :per-page="perPage"
       :current-page="currentPage"
       :fields="fields"
     >
-    <template v-slot:cell(STT)="data"> 
-        <p>{{(data.index)}}</p>
-    </template>
-
       <template v-slot:cell(avatar)="data">
         <img :src="data.item.avatar" alt class="avatar-event" />
       </template>
@@ -29,7 +25,7 @@
         <button v-on:click="deleteEvent(data.item.id)" class="btn btn-info" v-else>
           <i class="fas fa-trash-restore"></i>
         </button>
-        <button class="btn btn-danger" @click.prevent="$router.push('/event/' + data.item.id )">
+        <button class="btn btn-danger" @click.prevent="$router.push('/user/' + data.item.id )">
           <i class="far fa-edit"></i>
         </button>
       </template>
@@ -60,62 +56,55 @@ export default {
   data() {
     return {
         fields:[
-            {key:"STT"},
             {key:"id"},
             {key:"userName"},
             {key:"phone"},
             {key:"email"},
             {key:"avatar"},
             {key:"gender"},
-            {key:"role"},
             {key:"action"},
         ],
-        items:[
-            
-        ],
+        items:[],
         totalRows:3,
         currentPage:1,
         perPage:10,
-        name:""
+        name:null
    };
   },
   methods:{
-      async myProvider(ctx){
-        
-          if(this.name){
-              console.log(123)
-          }else{
-        const {data} = await this.$axios.get('cms/get-page-user?pageIndex=' +  ctx.currentPage  + '&pageSize=10')
-        console.log(data)
-        this.items = data.data.content
-        let items  = data.data.content
-        this.totalRows = data.data.pageable.totalRow
+      async myProvider(){
+        const {data} = this.name ? await this.$axios.post('cms/search-user?pageIndex=' ,{
+          keySearch : this.name,
+          pageSize : 10,
+          pageIndex: this.currentPage
+          })
+        : await this.$axios.get('cms/get-page-user?pageIndex=' +  this.currentPage  + '&pageSize=10')
+        this.items = data.content
+        this.totalRows = data.pageable.totalRow
         this.perPage = 10
-        return items;
-          }
-        // this.currentPage = data.data.pageable.pageIndex
       },
       async deleteEvent(e){
-          const dataDelete = await this.$axios.delete('cms/delete-event/' + e)
-
+        const dataDelete = await this.$axios.delete('cms/delete-event/' + e)
           console.log(dataDelete);
-          
       },
-      async searchEvent(){
+      searchUser:function(){
+        this.myProvider();
       },
       formatDate(value) {
-            if (!value) return
-            var date = new Date(value);
-            if (!isNaN(date.getTime())) {
-                var day = date.getDate().toString();
-                var month = (date.getMonth() + 1).toString();
-                return 'nam: ' + date.getFullYear() + ' thang: ' +
-                    (month[1] ? month : '0' + month[0]) + ' ngay: ' + (day[1] ? day : '0' + day[0]);
-            }
-        },
-
-  }
-};
+        if (!value) return
+        var date = new Date(value);
+        if (!isNaN(date.getTime())) {
+            var day = date.getDate().toString();
+            var month = (date.getMonth() + 1).toString();
+            return 'nam: ' + date.getFullYear() + ' thang: ' +
+                (month[1] ? month : '0' + month[0]) + ' ngay: ' + (day[1] ? day : '0' + day[0]);
+        }
+      },
+    },
+    created() {
+      this.myProvider()
+    }
+  };
 </script>
 <style>
 .paginate-event {
