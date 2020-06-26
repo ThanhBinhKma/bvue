@@ -3,25 +3,20 @@
     <b-form-group>
       <div class="block">
           <span class="demonstration">Start time</span>
-          <el-date-picker v-model="from" type="date" placeholder="Start time" v-on:change="myProvider"></el-date-picker>
+          <b-form-datepicker id="example-datepicker" v-model="from" class="mb-2"  v-on:change="myProvider"></b-form-datepicker>
         </div>
 
         <div class="block">
-          <span class="demonstration">Start time</span>
-          <el-date-picker v-model="to" type="date" placeholder="Start time" v-on:change="myProvider"></el-date-picker>
+          <span class="demonstration">End time</span>
+          <b-form-datepicker id="example-datepicker" v-model="to" class="mb-2"  v-on:change="myProvider"></b-form-datepicker>
         </div>
       <!-- <b-button v-on:click="searchEvent">Search</b-button> -->
     </b-form-group>
     <b-table
       id="my-table"
       :items="items"
-      :per-page="perPage"
-      :current-page="currentPage"
       :fields="fields"
     >
-      <template v-slot:cell(STT)="data">
-        <p>{{data.index}}</p>
-      </template>
       <template v-slot:cell(avatar)="data">
         <img :src="data.item.avatar" alt class="avatar-event" />
       </template>
@@ -96,6 +91,11 @@ export default {
      
       async searchEvent(){
       },
+       watch: {
+    'currentPage' (val) {
+      this.myProvider()
+    }  
+  },
       formatDate(value) {
             if (!value) return
             var date = new Date(value);

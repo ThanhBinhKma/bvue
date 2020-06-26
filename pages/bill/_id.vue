@@ -56,24 +56,10 @@
     </div>
     <div class="row">
       <div class="col-md-6">
-        <div class="custom-control custom-switch">
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            id="customSwitch1"
-            v-if="status === true"
-            v-model="status"
-            checked
-          />
-          <input
-            type="checkbox"
-            class="custom-control-input"
-            id="customSwitch1"
-            v-if="status === false"
-            v-model="status"
-          />
-          <label class="custom-control-label" for="customSwitch1">Status</label>
-        </div>
+          <select name="" id="" v-model="status">
+            <option value="true">Active</option>
+            <option value="false">Unactive</option>
+          </select>
       </div>
     </div>
 
@@ -122,14 +108,12 @@ export default {
           
           const dataUser = await this.$store.dispatch('user/getList');
           dataUser.content.forEach(element => {
-            // console.log(element)
             if(data.toUser === element.id){
               this.value1.push(element)
             }
             if(data.fromUser === element.id){
               this.fromUser = element.userName
             }
-            console.log(123)
               this.options.push(element)
           });
           }
@@ -155,7 +139,6 @@ export default {
             status:this.status
           })
         }else{
-          console.log(this.value1.id)
           const update = await this.$axios.post('/cms/save-billing',{
             toUser:this.value1.id,
             amountSent:this.amountSent,
@@ -164,6 +147,7 @@ export default {
             status:this.status
           })
         }
+        this.$router.push('/bill')
       }
 
     },

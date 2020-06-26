@@ -52,16 +52,13 @@
 
     <div class="row mb-5">
       <div class="col-3 col-md-3">
-        <div class="block">
-          <span class="demonstration">Start time</span>
-          <el-date-picker v-model="startTime" type="date" placeholder="Start time"></el-date-picker>
-        </div>
+        <b-form-datepicker id="example-datepicker" v-model="startTime" class="mb-2"></b-form-datepicker>
       </div>
 
       <div class="col-3 col-md-3">
         <div class="block">
           <span class="demonstration">End Time</span>
-          <el-date-picker v-model="endTime" type="date" placeholder="End time"></el-date-picker>
+           <b-form-datepicker id="example-datepicker" v-model="endTime" class="mb-2"></b-form-datepicker>
         </div>
       </div>
     </div>
@@ -200,7 +197,7 @@ export default {
           bodyformData.set('participantMax',this.participantMax);
           bodyformData.set('description',this.description);
           bodyformData.set('price',this.price);
-          const PromiseValue = await this.$axios.post('/event/update-event',bodyformData)
+          const PromiseValue = await this.$axios.post('/cms/event/update-event',bodyformData)
         
           this.detailEvent()
         },

@@ -42,7 +42,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ['~plugins/axios','~plugins/moment', '~plugins/element-ui','~plugins/multi-select'],
+  plugins: ['~plugins/axios','~plugins/moment', '~plugins/element-ui','~plugins/multi-select','~plugins/validator'],
   /*
    ** Nuxt.js dev-modules
    */

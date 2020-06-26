@@ -54,7 +54,6 @@ export default {
       async myProvider(){
         const {data} = await this.$axios.get('/cms/get-page-billing?pageIndex=' + this.currentPage + "&pageSize=" + this.perPage)
         this.items = data.content
-        console.log(data)
         this.totalRows =data.pageable.totalRow
       },
    },
