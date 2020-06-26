@@ -36,7 +36,8 @@ export default {
   './node_modules/element-ui/packages/theme-chalk/src/base.scss',
   './node_modules/element-ui/packages/theme-chalk/src/button.scss',
   './node_modules/element-ui/packages/theme-chalk/src/container.scss',
-  './assets/css/style.css'
+  './assets/css/style.css',
+  './assets/sass/main.scss'
 ],
   /*
    ** Plugins to load before mounting the App
