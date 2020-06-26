@@ -150,5 +150,6 @@ export default {
 }
 .hover-authorName:hover{
   color: blue !important;
+  cursor: pointer;
 }
 </style>

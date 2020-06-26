@@ -1,34 +1,13 @@
 <template>
   <div class="form-content">
-    <b-form-group>
-      <b-form-input v-model="name"></b-form-input>
-      <!-- <b-button v-on:click="searchEvent">Search</b-button> -->
-    </b-form-group>
-    <b-table
-      id="my-table"
-      :items="items"
-      :per-page="perPage"
-      :current-page="currentPage"
-      :fields="fields"
-    >
-      <template v-slot:cell(STT)="data">
-        <p>{{data.index}}</p>
-      </template>
-      <template v-slot:cell(avatar)="data">
-        <img :src="data.item.avatar" alt class="avatar-event" />
-      </template>
+    <div class="row">
+      <a v-on:click="$router.push('/bill/create')" class="btn btn-primary">Add</a>
+    </div>
+    <b-table id="my-table" :items="items" :fields="fields">
       <template v-slot:cell(action)="data">
         <button class="btn btn-danger" @click.prevent="$router.push('/bill/' + data.item.id )">
           <i class="far fa-edit"></i>
         </button>
-      </template>
-
-      <template v-slot:cell(startdate)="data">
-        <p>{{ formatDate(data.item.startDate)}}</p>
-      </template>
-
-      <template v-slot:cell(enddate)="data">
-        <p>{{ formatDate(data.item.endDate)}}</p>
       </template>
     </b-table>
 
@@ -50,8 +29,8 @@ export default {
     return {
         fields:[
             {key:"id"},
-            {key:"toUser"},
-            {key:"fromUser"},
+            {key:"toUserName"},
+            {key:"fromUserName"},
             {key:"amountSent"},
             {key:"amountTake"},
             {key:"totalAmount"},
@@ -59,37 +38,26 @@ export default {
             {key:"status"},
             {key:"action"}
         ],
-        items:[
-            
-        ],
+        items:[],
         totalRows:3,
         currentPage:1,
-        perPage:10,
+        perPage:5,
         name:""
    };
   },
+  watch: {
+    'currentPage' (val) {
+      this.myProvider()
+    }  
+  },
   methods:{
       async myProvider(){
-        const {data} = await this.$axios.get('/cms/get-page-billing?' + this.currentPage + "&pageSize=" + this.perPage)
+        const {data} = await this.$axios.get('/cms/get-page-billing?pageIndex=' + this.currentPage + "&pageSize=" + this.perPage)
         this.items = data.content
+        console.log(data)
         this.totalRows =data.pageable.totalRow
-          console.log(data)
       },
-        // this.currentPage = data.data.pageable.pageIndex
-     
-      async searchEvent(){
-      },
-      formatDate(value) {
-            if (!value) return
-            var date = new Date(value);
-            if (!isNaN(date.getTime())) {
-                var day = date.getDate().toString();
-                var month = (date.getMonth() + 1).toString();
-                return 'nam: ' + date.getFullYear() + ' thang: ' +
-                    (month[1] ? month : '0' + month[0]) + ' ngay: ' + (day[1] ? day : '0' + day[0]);
-            }
-        },
-         },
+   },
         created(){
           this.myProvider()
         }

@@ -7,8 +7,6 @@
     <b-table
       id="my-table"
       :items="items"
-      :per-page="perPage"
-      :current-page="currentPage"
       :fields="fields"
     >
       <template v-slot:cell(avatar)="data">
@@ -22,10 +20,10 @@
         >
           <i class="far fa-trash-alt"></i>
         </button>
-        <button v-on:click="deleteEvent(data.item.id)" class="btn btn-info" v-else>
+        <button v-on:click="deleteEvent(data.item.id)" class="btn btn-info button-edit" v-else>
           <i class="fas fa-trash-restore"></i>
         </button>
-        <button class="btn btn-danger" @click.prevent="$router.push('/user/' + data.item.id )">
+        <button class="btn btn-danger button-edit" @click.prevent="$router.push('/user/' + data.item.id )">
           <i class="far fa-edit"></i>
         </button>
       </template>
@@ -39,7 +37,7 @@
       </template>
     </b-table>
 
-    <div class="overflow-auto pagination-center">
+    <div class="overflow-auto pagination-custom">
       <b-pagination
         v-model="currentPage"
         :total-rows="totalRows"
@@ -70,6 +68,10 @@ export default {
         perPage:10,
         name:null
    };
+  },  watch: {
+    'currentPage' (val) {
+      this.myProvider()
+    }  
   },
   methods:{
       async myProvider(){
@@ -77,7 +79,7 @@ export default {
           keySearch : this.name,
           pageSize : 10,
           pageIndex: this.currentPage
-          })
+        })
         : await this.$axios.get('cms/get-page-user?pageIndex=' +  this.currentPage  + '&pageSize=10')
         this.items = data.content
         this.totalRows = data.pageable.totalRow
@@ -89,16 +91,6 @@ export default {
       },
       searchUser:function(){
         this.myProvider();
-      },
-      formatDate(value) {
-        if (!value) return
-        var date = new Date(value);
-        if (!isNaN(date.getTime())) {
-            var day = date.getDate().toString();
-            var month = (date.getMonth() + 1).toString();
-            return 'nam: ' + date.getFullYear() + ' thang: ' +
-                (month[1] ? month : '0' + month[0]) + ' ngay: ' + (day[1] ? day : '0' + day[0]);
-        }
       },
     },
     created() {

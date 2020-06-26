@@ -1,34 +1,16 @@
 <template>
   <div class="form-content">
-    <b-form-group>
-      <b-form-input v-model="name"></b-form-input>
-      <!-- <b-button v-on:click="searchEvent">Search</b-button> -->
-    </b-form-group>
-    <b-table
-      id="my-table"
-      :items="items"
-      :per-page="perPage"
-      :current-page="currentPage"
-      :fields="fields"
-    >
-      <template v-slot:cell(STT)="data">
-        <p>{{data.index}}</p>
-      </template>
-      <template v-slot:cell(avatar)="data">
-        <img :src="data.item.avatar" alt class="avatar-event" />
+    <b-table id="my-table" :items="items" :fields="fields">
+      <template v-slot:cell(userName) = "data">
+        <a v-on:click="$router.push('user/' + data.item.id)" class="hover-authorName">{{data.item.userName}}</a>
       </template>
       <template v-slot:cell(action)="data">
-        <button class="btn btn-danger" @click.prevent="$router.push('/transaction/' + data.item.id )">
+        <button
+          class="btn btn-danger"
+          @click.prevent="$router.push('/income/' + data.item.userId )"
+        >
           <i class="far fa-edit"></i>
         </button>
-      </template>
-
-      <template v-slot:cell(startdate)="data">
-        <p>{{ formatDate(data.item.startDate)}}</p>
-      </template>
-
-      <template v-slot:cell(enddate)="data">
-        <p>{{ formatDate(data.item.endDate)}}</p>
       </template>
     </b-table>
 
@@ -48,47 +30,34 @@ export default {
     layout: 'wrapper',
   data() {
     return {
-        fields:[
-            {key:"income"},
-            {key:"userId"},
-            {key:"userName"},
-            {key:"email"},
-            {key:"action"}
-        ],
-        items:[
-            
-        ],
-        totalRows:3,
-        currentPage:1,
-        perPage:10,
-        name:""
+      fields:[
+        {key:"userName"},
+        {key:"email"},
+        {key:"income"},
+        {key:"action"}
+      ],
+      items:[],
+      totalRows:3,
+      currentPage:1,
+      perPage:10,
+      name:""
    };
   },
+  watch: {
+    'currentPage' (val) {
+      this.myProvider()
+    }  
+  },
   methods:{
-      async myProvider(){
-        const {data} = await this.$axios.get('/cms/get-page-income?' + this.currentPage + "&pageSize=" + this.perPage)
-        this.items = data.content
-        this.totalRows =data.pageable.totalRow
-          console.log(data)
-      },
-        // this.currentPage = data.data.pageable.pageIndex
-     
-      async searchEvent(){
-      },
-      formatDate(value) {
-            if (!value) return
-            var date = new Date(value);
-            if (!isNaN(date.getTime())) {
-                var day = date.getDate().toString();
-                var month = (date.getMonth() + 1).toString();
-                return 'nam: ' + date.getFullYear() + ' thang: ' +
-                    (month[1] ? month : '0' + month[0]) + ' ngay: ' + (day[1] ? day : '0' + day[0]);
-            }
-        },
-         },
-        created(){
-          this.myProvider()
-        }
+    async myProvider(){
+      const {data} = await this.$axios.get('/cms/get-page-income?pageIndex=' + this.currentPage + "&pageSize=" + this.perPage)
+      this.items = data.content
+      this.totalRows =data.pageable.totalRow
+    },
+  },
+  created(){
+    this.myProvider()
+  }
 };
 </script>
 <style>

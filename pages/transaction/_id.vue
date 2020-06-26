@@ -2,24 +2,22 @@
   <div>
     <div class="row">
       <div class="col-3 col-md-3">
-        <label for>User</label>
-        <input type="text" v-model="userId">
+        <p>User: {{userName}}</p>
       </div>
 
       <div class="col-3 col-md-3">
-          <label for="">Amount</label>
-          <input type="text" v-model="amount">
+          <p>Amount: {{amount}}</p>
       </div>
 
       <div class="col-3 col-md-3">
-          <input type="text" v-model="currency">
+          <p>Currency: {{currency}}</p>
       </div>
 
       <div class="col-3 col-md-3">
-          <input type="text" v-model="eventId">
+          <p>Event: {{eventName}}</p>
       </div>
 
-      <input type="text" v-model="createdAt">
+      <p>Created: {{createdAt}}</p>
     </div>
   </div>
 </template>
@@ -31,10 +29,10 @@ export default {
         return{
             options:[],
             value:null,
-            eventId:null,
+            eventName:null,
             currency:null,
             amount:null,
-            userId:null,
+            userName:null,
             createdAt:null
         }
     },
@@ -46,10 +44,10 @@ export default {
            promise.data.content.forEach(element => {
                this.options.push(element)
            });
-           this.eventId = data.eventId
+           this.eventName = data.eventName
            this.currency =data.currency
            this.amount = data.amount
-           this.userId = data.userId
+           this.userName = data.userName
            this.createdAt = data.createdAt
         },
          addTag (newTag) {
