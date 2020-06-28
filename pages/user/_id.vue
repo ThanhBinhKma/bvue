@@ -1,28 +1,31 @@
 <template>
   <div>
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label">User Name</label>
-      <div class="col-md-6">
-        <input type="text" v-model="userName" class="form-control" />
-      </div>
-    </div>
+    
+      <b-form-group
+      id="fieldset-1"
+      label="User Name"
+      label-for="input-1"
+      :invalid-feedback="invalidFeedback"
+      :valid-feedback="validFeedback"
+      :state="state"
+    >
+      <b-form-input id="input-1" v-model="userName" :state="state" trim></b-form-input>
+    </b-form-group>
 
-    <div class="form-group row">
-      <label for="gender" class="col-md-2 col-form-label">Gender</label>
-      <div class="col-md-6">
-        <select name id class="form-control" v-model="gender">
-          <option value="0">0</option>
-          <option value="1">1</option>
-        </select>
-      </div>
-    </div>
+    <label for="">Gender</label>
+    <b-form-select v-model="gender" :options="options"   label="Gender"></b-form-select>
 
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label">Phone</label>
-      <div class="col-md-6">
-        <input type="text" v-model="phone" class="form-control" />
-      </div>
-    </div>
+    <b-form-group
+      id="fieldset-1"
+      label="Phone"
+      label-for="input-1"
+      :invalid-feedback="invalidFeedback"
+      :valid-feedback="validFeedback"
+      :state="state"
+    >
+      <b-form-input id="input-1" v-model="phone" :state="state" trim></b-form-input>
+    </b-form-group>
+
 
     <div class="form-group row">
       <label class="col-md-2 col-form-label">Password</label>
@@ -76,14 +79,32 @@ export default {
       return{
         birthday:'',
         min:minDate,
+        options:[
+          0,
+          1
+        ],
         max:maxDate,
-        userName:null,
-        phone:null,
+        userName:'',
+        phone:'',
         email:null,
         fileUpload:null,
         avatar:null,
         gender:null,
         password:null
+      }
+    },
+    computed:{
+      state() {
+        return this.userName.length >= 4 ? true : false
+      },
+      invalidFeedback() {
+        if (this.userName.length > 4) {
+          return ''
+        } else if (this.userName.length > 0 || this.phone.length > 0) {
+          return 'Enter at least 4 characters'
+        } else {
+          return 'Please enter something'
+        }
       }
     },
     methods:{

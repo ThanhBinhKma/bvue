@@ -62,6 +62,7 @@
             </div>
             <div class="form-group"></div>
             <div class="form-group">
+              <div tabindex="-1" id="fieldset-1__BV_feedback_invalid_" role="alert" aria-live="assertive" aria-atomic="true" class="invalid-feedback d-block">{{errors}}</div>
               <button class="btn btn-primary submit-btn btn-block" @click="onLogin">Login</button>
             </div>
           </div>
@@ -85,6 +86,7 @@ export default {
         email: '',
         password: '',
       },
+      errors:'',
     }
   },
   computed: {
@@ -104,13 +106,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      login: 'auth/loginPing'
-    }),
 
-    // eslint-disable-next-line require-await
     async onLogin() {
-        this.login(this.formLogin)
+      try{
+        const data = await this.$store.dispatch('auth/loginPing',this.formLogin)
+        this.errors = 'Ban chua du quyen'
+      }catch(e){
+        this.errors = e.message
+      } 
     },
   },
   created() {

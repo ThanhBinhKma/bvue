@@ -91,11 +91,6 @@ export default {
      
       async searchEvent(){
       },
-       watch: {
-    'currentPage' (val) {
-      this.myProvider()
-    }  
-  },
       formatDate(value) {
             if (!value) return
             var date = new Date(value);
@@ -107,6 +102,11 @@ export default {
             }
         },
          },
+         watch: {
+        'currentPage' (val) {
+          this.myProvider()
+        }  
+  },
         created(){
           this.myProvider()
         }
