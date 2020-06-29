@@ -13,7 +13,60 @@
     overflow-x: hidden;
     width: 260px;
     z-index: 4;
-    box-shadow: inset -1px 0px 0px 0px $medium-gray;
+    background-color: #2b2c45;
+    .nav {
+      //margin-top: 20px;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      .nav-item {
+        display: block;
+        width: 100%;
+        .nav-link {
+          display: block;
+          margin: 8px 0;
+          font-size: 16px;
+          padding: 0 24px;
+          height: 45px;
+          line-height: 45px;
+          font-weight: bold;
+          color: #fff !important;
+          transition: all 0.25s ease-in-out;
+        }
+
+        &:hover > .nav-link:not(.nuxt-link-active) {
+          opacity: 1;
+          background-color: #373857;
+        }
+
+        &.active > .nav-link {
+          color: $primary-color;
+          opacity: 1;
+        }
+        .nuxt-link-active {
+          background-color: #373857;
+          border-left: 22px solid #fbc10b;
+          transition: all 0.25s ease-in-out;
+        }
+      }
+
+      p {
+        margin: 0;
+        line-height: 30px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      i {
+        font-size: 24px;
+        float: left;
+        margin-right: 15px;
+        line-height: 30px;
+        width: 30px;
+        text-align: center;
+      }
+    }
   }
   .sidebar-background {
     position: absolute;
@@ -26,7 +79,6 @@
     background-size: cover;
     background-position: center center;
   }
-
 }
 
 .wrapper .sidebar {
@@ -36,8 +88,9 @@
 
   .logo {
     padding: 13px 0;
-    margin: 0 20px;
-
+    margin: auto;
+    max-width: 50%;
+    border: unset !important;
     p {
       float: left;
       font-size: 20px;
@@ -46,76 +99,20 @@
     }
 
     .simple-text {
-      padding: $padding-small-vertical $padding-zero;
       display: block;
       font-size: $font-size-base;
       text-align: center;
       font-weight: $font-weight-bold;
-      line-height: 40px;
-      text-align: left;
-
-      .logo-img{
-          width: 40px;
-          display: inline-block;
-          height: 40px;
-          margin-left: 0px;
-          margin-right: 10px;
-          background: white;
-          border-radius: 40px;
-          text-align: center;
-
-        img{
-            max-width: 21px;
-        }
+      svg {
+        max-width: 100%;
       }
-    }
-  }
-
-  .nav {
-    //margin-top: 20px;
-
-    .nav-item {
-      width: 100%;
-      .nav-link {
-        margin: 10px 0px;
-        padding-left: 25px;
-        padding-right: 25px;
-
-        opacity: .7;
-      }
-
-      &:hover > .nav-link {
-        opacity: 1;
-      }
-
-      &.active > .nav-link {
-        color: $primary-color;
-        opacity: 1;
-      }
-    }
-
-    p {
-      margin: 0;
-      line-height: 30px;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    i {
-      font-size: 24px;
-      float: left;
-      margin-right: 15px;
-      line-height: 30px;
-      width: 30px;
-      text-align: center;
     }
   }
 
   &:after,
   &:before {
     display: block;
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 100%;
@@ -126,36 +123,35 @@
   }
 
   &,
-  &[data-background-color="white"] {
+  &[data-background-color='white'] {
     @include sidebar-background-color($white-background-color, $default-color);
   }
-  &[data-background-color="black"] {
-    @include sidebar-background-color($black-background-color, #66615B);
+  &[data-background-color='black'] {
+    @include sidebar-background-color($black-background-color, #66615b);
   }
-  &[data-background-color="darkblue"] {
+  &[data-background-color='darkblue'] {
     @include sidebar-background-color($darkblue-background-color, $white-color);
   }
 
-  &[data-active-color="primary"] {
+  &[data-active-color='primary'] {
     @include sidebar-active-color($primary-color);
   }
-  &[data-active-color="info"] {
+  &[data-active-color='info'] {
     @include sidebar-active-color($info-color);
   }
-  &[data-active-color="success"] {
+  &[data-active-color='success'] {
     @include sidebar-active-color($success-color);
   }
-  &[data-active-color="warning"] {
+  &[data-active-color='warning'] {
     @include sidebar-active-color($warning-color);
   }
-  &[data-active-color="danger"] {
+  &[data-active-color='danger'] {
     @include sidebar-active-color($danger-color);
   }
-
 }
 
 .main-panel {
-  background-color: $bg-nude;
+  background-color: #f1f3f4;
   position: relative;
   z-index: 2;
   float: right;
@@ -164,8 +160,7 @@
   overflow: auto;
 
   > .content {
-    padding: 30px 15px;
-    min-height: calc(100% - 123px);
+    padding: 30px 15px 50px;
   }
 
   > .footer {
@@ -181,8 +176,8 @@
 .main-panel {
   -webkit-transition-property: top, bottom;
   transition-property: top, bottom;
-  -webkit-transition-duration: .2s, .2s;
-  transition-duration: .2s, .2s;
+  -webkit-transition-duration: 0.2s, 0.2s;
+  transition-duration: 0.2s, 0.2s;
   -webkit-transition-timing-function: linear, linear;
   transition-timing-function: linear, linear;
   -webkit-overflow-scrolling: touch;
@@ -193,4 +188,88 @@
   height: 100%;
   overflow: hidden;
   overflow-y: hidden;
+}
+.infoUser {
+  border-radius: 12px;
+  margin: 25px 40px;
+  padding: 30px 45px;
+  background-color: #fff;
+  label {
+    color: #000;
+    font-weight: 500;
+    font-size: 15px;
+  }
+  input,
+  select,.b-form-datepicker .form-control {
+    height: 45px !important;
+    line-height: 45px !important;
+    border: 1px solid #d3d3d3 !important;
+    padding: 0 1.5rem !important;
+  }
+  .b-form-datepicker {
+    position: relative;
+    .form-control{
+      position: relative;
+    }
+    button{
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 45px;
+      height: 45px !important;
+      text-align: center;
+      padding: 0;
+      margin: 0;
+    }
+  }
+}
+
+.avatar-box {
+  padding-right: 1.5rem;
+  img{
+    width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+  .form-control-file{
+    border: none !important;
+    -webkit-appearance: none;
+    cursor: pointer;
+    position: relative;
+    width: 80%;
+    margin: 0 auto 15px;
+    &:after{
+      content:"Upload Avatar";
+      width: 100%;
+      height:45px;
+      line-height: 45px;
+      background-color: #0F9BF6;
+      color: #fff;
+      font-weight: bold;
+      text-align: center;
+      font-size: 15px;
+      position: absolute;
+      top:0;
+      left: 0;
+      border-radius: 5px;
+    }
+    &:hover{
+      &:after{
+        background-color: #0a73b8;
+      }
+    }
+  }
+  .btn-update{
+    height:45px;
+      line-height: 45px;
+      background-color: #FBC10B;
+      color: #fff;
+      font-weight: bold;
+      text-align: center;
+      font-size: 15px;
+      padding:0;
+      border:unset;
+      width: 80%;
+      text-transform: initial;
+  }
 }
