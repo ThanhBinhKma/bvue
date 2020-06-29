@@ -1,33 +1,47 @@
 <template>
   <div class="form-content">
-    <b-form-group>
-      <b-form-input v-model="name"></b-form-input>
-      <b-button v-on:click="searchUser()">Search</b-button>
-    </b-form-group>
-    <b-table
-      id="my-table"
-      :items="items"
-      :fields="fields"
-    >
-      <template v-slot:cell(avatar)="data">
-        <img :src="data.item.avatar" alt class="avatar-event" />
+    <div class="row topSection">
+      <div class="justify-content-start col-md-4 mr-auto ml-0">
+        <div class="title-section">
+          <h1 class="title-main">User</h1>
+        </div>
+      </div>
+      <div class="justify-content-end col-md-4 mr-0 ml-auto">
+        <b-form-group class="formSearch">
+          <b-form-input v-model="name" placeholder="Search..."></b-form-input>
+          <b-button v-on:click="searchUser()">Search</b-button>
+        </b-form-group>
+      </div>
+    </div>
+    <b-table responsiveid="my-table" :items="items" :fields="fields">
+      <template
+        v-slot:cell(avatar)="data"
+        :style="{ width: field.key === 'foo' ? '50px' : '60px' }"
+      >
+        <div class="avtTable">
+          <img :src="data.item.avatar" alt class="avatar-event" />
+        </div>
       </template>
       <template v-slot:cell(action)="data">
-        <button
-          v-on:click="deleteEvent(data.item.id)"
-          class="btn btn-primary"
-          v-if="data.item.flaq === true"
-        >
-          <i class="far fa-trash-alt"></i>
-        </button>
-        <button v-on:click="deleteEvent(data.item.id)" class="btn btn-info button-edit" v-else>
-          <i class="fas fa-trash-restore"></i>
-        </button>
-        <button class="btn btn-danger button-edit" @click.prevent="$router.push('/user/' + data.item.id )">
-          <i class="far fa-edit"></i>
-        </button>
+        <div class="colAction">
+          <button
+            class="btn btn-danger button-edit"
+            @click.prevent="$router.push('/user/' + data.item.id )"
+          >
+            <i class="far fa-edit"></i>
+          </button>
+          <button
+            v-on:click="deleteEvent(data.item.id)"
+            class="btn btn-primary"
+            v-if="data.item.flaq === true"
+          >
+            <i class="far fa-trash-alt"></i>
+          </button>
+          <button v-on:click="deleteEvent(data.item.id)" class="btn btn-info button-edit" v-else>
+            <i class="fas fa-trash-restore"></i>
+          </button>
+        </div>
       </template>
-
       <template v-slot:cell(startdate)="data">
         <p>{{ formatDate(data.item.startDate)}}</p>
       </template>
@@ -55,10 +69,10 @@ export default {
     return {
         fields:[
             {key:"id"},
+            {key:"avatar"},
             {key:"userName"},
             {key:"phone"},
             {key:"email"},
-            {key:"avatar"},
             {key:"gender"},
             {key:"action"},
         ],
