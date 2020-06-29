@@ -65,8 +65,7 @@
                 </b-form-group>
               </div>
             </div>
-            <div class="form-group"></div>
-            <div class="form-group">
+            <div class="form-group text-center">
               <div
                 tabindex="-1"
                 id="fieldset-1__BV_feedback_invalid_"
@@ -75,6 +74,8 @@
                 aria-atomic="true"
                 class="invalid-feedback d-block"
               >{{errors}}</div>
+            </div>
+            <div class="form-group">
               <button class="btn btn-primary submit-btn btn-block" @click="onLogin">Login</button>
             </div>
           </div>

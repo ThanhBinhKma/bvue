@@ -1,66 +1,63 @@
 <template>
-  <div>
-    <b-form-group
-      id="fieldset-1"
-      label="User Name"
-      label-for="input-1"
-      :invalid-feedback="invalidFeedback"
-      :valid-feedback="validFeedback"
-      :state="state"
-    >
-      <b-form-input id="input-1" v-model="userName" :state="state" trim></b-form-input>
-    </b-form-group>
-
-    <label for>Gender</label>
-    <b-form-select v-model="gender" :options="options" label="Gender"></b-form-select>
-
-    <b-form-group
-      id="fieldset-1"
-      label="Phone"
-      label-for="input-1"
-      :invalid-feedback="invalidFeedback"
-      :valid-feedback="validFeedback"
-      :state="state"
-    >
-      <b-form-input id="input-1" v-model="phone" :state="state" trim></b-form-input>
-    </b-form-group>
-
-
-    <b-form-group
-      id="fieldset-1"
-      label="Password"
-      label-for="input-3"
-   
-    >
-      <b-form-input id="input-3" v-model="password" trim placeholder="●●●●●●●●●"></b-form-input>
-    </b-form-group>
-
-
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label">Birthday</label>
-      <div class="col-md-6">
-        <b-form-datepicker id="example-datepicker" v-model="birthday" class="mb-2"  v-on:change="myProvider"></b-form-datepicker>
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label">Email</label>
-      <div class="col-md-6">
-        <input type="text" v-model="email" class="form-control" disabled />
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label">Avatar</label>
-      <div class="col-md-6">
+  <div class="infoUser row">
+    <div class="avatar-box col-4 text-center">
+      <div class="form-group">
+        <img :src="avatar" alt class="imgAvatarEvent" />
         <b-form-file v-model="fileUpload" plain name="fileName"></b-form-file>
       </div>
-      <img :src="avatar" alt class="imgAvatarEvent" />
+      <div class="form-group form-update text-center">
+        <button class="btn btn-update" v-on:click="updateUser()">Update</button>
+      </div>
+    </div>
+    <div class="info-box col-8">
+      <b-form-group
+        id="fieldset-1"
+        label="User Name"
+        label-for="input-1"
+        :invalid-feedback="invalidFeedback"
+        :valid-feedback="validFeedback"
+        :state="state"
+      >
+        <b-form-input id="input-1" v-model="userName" :state="state" trim></b-form-input>
+      </b-form-group>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="text" v-model="email" class="form-control" disabled />
+      </div>
+      <b-form-group
+        id="fieldset-1"
+        label="Phone"
+        label-for="input-1"
+        :invalid-feedback="invalidFeedback"
+        :valid-feedback="validFeedback"
+        :state="state"
+      >
+        <b-form-input id="input-1" v-model="phone" :state="state" trim></b-form-input>
+      </b-form-group>
+      <div class="row">
+        <div class="col-md-8">
+          <div class="form-group">
+            <label>Birthday</label>
+            <b-form-datepicker
+              id="example-datepicker"
+              v-model="birthday"
+              v-on:change="myProvider"
+            ></b-form-datepicker>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for>Gender</label>
+            <b-form-select v-model="gender" :options="options" label="Gender"></b-form-select>
+          </div>
+        </div>
+      </div>
+      <b-form-group id="fieldset-1" label="Password" label-for="input-3">
+        <b-form-input id="input-3" v-model="password" trim placeholder="●●●●●●●●●"></b-form-input>
+      </b-form-group>
     </div>
 
-    <div class="form-group form-update">
-      <button class="btn btn-primary" v-on:click="updateUser()">Update</button>
-    </div>
+    
   </div>
 </template>
 
