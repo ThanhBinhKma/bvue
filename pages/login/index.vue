@@ -56,13 +56,25 @@
                   :invalid-feedback="invalidFeedback"
                   :state="state"
                 >
-                  <b-form-input id="input-1" v-model="formLogin.password" type="password" :state="state"></b-form-input>
+                  <b-form-input
+                    id="input-1"
+                    v-model="formLogin.password"
+                    type="password"
+                    :state="state"
+                  ></b-form-input>
                 </b-form-group>
               </div>
             </div>
             <div class="form-group"></div>
             <div class="form-group">
-              <div tabindex="-1" id="fieldset-1__BV_feedback_invalid_" role="alert" aria-live="assertive" aria-atomic="true" class="invalid-feedback d-block">{{errors}}</div>
+              <div
+                tabindex="-1"
+                id="fieldset-1__BV_feedback_invalid_"
+                role="alert"
+                aria-live="assertive"
+                aria-atomic="true"
+                class="invalid-feedback d-block"
+              >{{errors}}</div>
               <button class="btn btn-primary submit-btn btn-block" @click="onLogin">Login</button>
             </div>
           </div>
@@ -110,7 +122,9 @@ export default {
     async onLogin() {
       try{
         const data = await this.$store.dispatch('auth/loginPing',this.formLogin)
-        this.errors = 'Ban chua du quyen'
+        if(data.user.role != 1){
+          this.errors = 'Ban chua du quyen'
+        }
       }catch(e){
         this.errors = e.message
       } 

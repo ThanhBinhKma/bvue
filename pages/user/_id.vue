@@ -1,7 +1,6 @@
 <template>
   <div>
-    
-      <b-form-group
+    <b-form-group
       id="fieldset-1"
       label="User Name"
       label-for="input-1"
@@ -12,8 +11,8 @@
       <b-form-input id="input-1" v-model="userName" :state="state" trim></b-form-input>
     </b-form-group>
 
-    <label for="">Gender</label>
-    <b-form-select v-model="gender" :options="options"   label="Gender"></b-form-select>
+    <label for>Gender</label>
+    <b-form-select v-model="gender" :options="options" label="Gender"></b-form-select>
 
     <b-form-group
       id="fieldset-1"
@@ -27,17 +26,20 @@
     </b-form-group>
 
 
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label">Password</label>
-      <div class="col-md-6">
-        <input type="password" v-model="password" class="form-control" placeholder="●●●●●●●●●" />
-      </div>
-    </div>
+    <b-form-group
+      id="fieldset-1"
+      label="Password"
+      label-for="input-3"
+   
+    >
+      <b-form-input id="input-3" v-model="password" trim placeholder="●●●●●●●●●"></b-form-input>
+    </b-form-group>
+
 
     <div class="form-group row">
       <label class="col-md-2 col-form-label">Birthday</label>
       <div class="col-md-6">
-        <b-calendar v-model="birthday" locale="en-US"></b-calendar>
+        <b-form-datepicker id="example-datepicker" v-model="birthday" class="mb-2"  v-on:change="myProvider"></b-form-datepicker>
       </div>
     </div>
 
